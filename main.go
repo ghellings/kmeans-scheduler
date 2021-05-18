@@ -30,7 +30,6 @@ func main() {
 				fmt.Printf("%v\n", site)
 			}
 		}
-
 	}
 }
 
@@ -49,20 +48,16 @@ func parsecsv(file string) (sitemap map[string][]string, d clusters.Observations
 		site := record[0]
 		record = record[1:]
 		stats := []float64{}
+		cluster := clusters.Coordinates{}
 		for _, val := range record {
 			fval, err := strconv.ParseFloat(val, 64)
 			if err != nil {
 				panic(fmt.Sprintf("Can't convert %v %v", val, err))
 			}
 			stats = append(stats, fval)
+			cluster = append(cluster, fval)
 		}
-		d = append(d, clusters.Coordinates{
-			stats[0],
-			stats[1],
-			stats[2],
-			stats[3],
-			stats[4],
-		})
+		d = append(d, cluster)
 		statmap := makestatmap(stats)
 		sitemap[statmap] = append(sitemap[statmap], site)
 	}
